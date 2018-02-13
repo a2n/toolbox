@@ -1,4 +1,4 @@
-package deg_
+package toolbox
 
 import (
 	"fmt"
