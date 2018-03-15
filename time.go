@@ -10,7 +10,7 @@ import (
 
 type TimeService struct {
 	tz   *time.Location
-	diff *int64
+	diff int64
 }
 
 func NewTimeService() *TimeService {
@@ -36,10 +36,10 @@ func (this *TimeService) sync() {
 		log.Printf("%+v", e)
 		return
 	}
-	atomic.StoreInt64(this.diff, int64(t.Sub(time.Now())))
+	atomic.StoreInt64(&this.diff, int64(t.Sub(time.Now())))
 }
 
 func (this *TimeService) Now() time.Time {
-	d := time.Duration(atomic.LoadInt64(this.diff))
+	d := time.Duration(atomic.LoadInt64(&this.diff))
 	return time.Now().In(this.tz).Add(d)
 }
